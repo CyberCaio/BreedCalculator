@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Breeding Calculator</title>
+    <link rel="stylesheet" href="Css/Style.css">
+</head>
+<body>
+    <div class="container"> <header><img class="logo animated-logo" src="image/planetaicone.png" height="150"></header></div>
+    <div class="container">
+
+
+        <!-- Dados do Pai -->
+        <div class="parent">
+            <div>Digite o Nome do pokemon ou número dele na pokedéx</div>
+            <input type="text" id="pokemon1" placeholder="pokémon/ID">
+    <button onclick="fetchPokemon1()" class="search-bar">Buscar Pokémon</button>
+    <div id="result1"></div>
+    <script>
+        async function fetchPokemon1() {
+            const pokemonName = document.getElementById("pokemon1").value.toLowerCase();
+            const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+            
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Pokémon não encontrado.');
+                const data = await response.json();
+                
+                document.getElementById("result1").innerHTML = `
+                    <h1>${data.name}</h1>
+                    <img src="${data.sprites.front_default}" alt="${data.name}">
+                    <p>Tipo: ${data.types.map(type => type.type.name).join(", ")}</p>
+                `;
+            } catch (error) {
+                document.getElementById("result1").innerText = error.message;
+            }
+        }
+    </script>
+        </div>
+    </div>
+
+        <!-- Dados da Mãe -->
+        <div class="parent">
+            <div>Digite o Nome do pokemon ou número dele na pokedéx</div>
+            <input type="text" id="pokemon2" placeholder="pokémon/ID">
+    <button onclick="fetchPokemon2()" class="search-bar">Buscar Pokémon</button>
+    <div id="result2"></div>
+    <script>
+        async function fetchPokemon2() {
+            const pokemonName = document.getElementById("pokemon2").value.toLowerCase();
+            const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+            
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Pokémon não encontrado.');
+                const data = await response.json();
+                
+                document.getElementById("result2").innerHTML = `
+                    <h1>${data.name}</h1>
+                    <img src="${data.sprites.front_default}" alt="${data.name}">
+                    <p>Tipo: ${data.types.map(type => type.type.name).join(", ")}</p>
+                `;
+            } catch (error) {
+                document.getElementById("result2").innerText = error.message;
+            }
+        }
+    </script>
+        </div>
+    </div>
+
+    <!--botão de calculo do breed-->
+    <div class="result-section">
+        <button onclick="calculateBreed()">Checar Compatibilidade</button>
+        <div id="result"></div>
+    </div>
+
+    
+
+    <script>
+        async function fetchPokemonData(pokemonName) {
+            const url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonName.toLowerCase()}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Pokémon ${pokemonName} não encontrado.`);
+            const data = await response.json();
+            return data;
+        }
+        //pega os dados dos dois pokemon para o calculo
+        async function calculateBreed() {
+            const pokemon1 = document.getElementById("pokemon1").value.trim();
+            const pokemon2 = document.getElementById("pokemon2").value.trim();
+            const resultDiv = document.getElementById("result");
+
+            try {
+                // busca os dados dos dois pokemon inseridos
+                const [data1, data2] = await Promise.all([
+                    fetchPokemonData(pokemon1),
+                    fetchPokemonData(pokemon2)
+                ]);
+
+                // procura os Egg Groups do pai e da mãe
+                const eggGroups1 = data1.egg_groups.map(group => group.name);
+                const eggGroups2 = data2.egg_groups.map(group => group.name);
+
+                // Verificar se compartilham do mesmo Egg Group
+                const sharedEggGroup = eggGroups1.filter(group => eggGroups2.includes(group));
+                
+                // saída dos dados
+                if (sharedEggGroup.length > 0) {
+                    resultDiv.innerHTML = `
+                        <h3>${data1.name} e ${data2.name} são compatíveis!</h3>
+                        <p>Egg Groups compartilhados: ${sharedEggGroup.join(", ")}</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3>${data1.name} e ${data2.name} não são compatíveis.</h3>
+                        <p>Egg Groups de ${data1.name}: ${eggGroups1.join(", ")}</p>
+                        <p>Egg Groups de ${data2.name}: ${eggGroups2.join(", ")}</p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Erro: ${error.message}</p>`;
+            }
+        }
+    </script>
+
+    
+</body>
+</html>

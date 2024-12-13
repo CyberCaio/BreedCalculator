@@ -1,0 +1,134 @@
+@keyframes pulse {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(5px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+}
+
+.animated-logo {
+    animation: pulse 3s infinite;
+}
+
+.logo {
+    z-index: 10;
+    transition: 0.25s;
+}
+
+.logo-ds-flex {
+    display: flex;
+    left: 0;
+    top: 0;
+    right: 0;
+    position: absolute;
+    max-width: 100%;
+    width: 100%;
+    z-index: 10;
+    justify-content: center;
+  }
+
+.logo:hover {
+    filter: brightness(90%);
+  }
+
+  .logo-container {
+    z-index: 1;
+    height: fit-content;
+  }
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f7f7f7;
+}
+
+.container {
+    display:flex;
+    justify-content: center;
+    gap: 50px;
+    margin: 20px 0;
+}
+
+.parent {
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    word-wrap: break-word;
+    background-color: #fff;;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .125);
+    width: 450px;
+}
+
+
+/*css da barra de pesquisa simples*/
+.search-bar {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.pokemon-image {
+    margin-top: 20px;   /* Move a imagem para baixo */
+    margin-left: -15px; /* Move a imagem para a esquerda */
+}
+
+
+
+.egg-group {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+}
+
+.type {
+    font-size: 14px;
+    font-style: italic;
+    color: #555;
+}
+
+.result-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.result-section button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.result-section button:hover {
+    background-color: #0056b3;
+}
+
+.result-box {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
